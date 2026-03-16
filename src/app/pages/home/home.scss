@@ -4,8 +4,14 @@
 }
 
 .hero {
-  padding: 28px 0 12px;
-  background:
+  padding: 28px 16px 12px;
+  background: 
+    linear-gradient(180deg, 
+      var(--mat-sys-primary) 0%,
+      color-mix(in srgb, var(--mat-sys-primary) 70%, transparent) 20%,
+      color-mix(in srgb, var(--mat-sys-primary) 30%, transparent) 40%,
+      transparent 60%
+    ),
     radial-gradient(1000px 500px at 10% 0%, rgba(99, 102, 241, 0.25), transparent 60%),
     radial-gradient(1000px 500px at 90% 0%, rgba(14, 165, 233, 0.25), transparent 60%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0));
@@ -60,7 +66,7 @@
 }
 
 .section {
-  padding: 18px 0;
+  padding: 18px 16px;
 }
 
 .section__header {

@@ -21,6 +21,35 @@ html {
   );
 }
 
+/* Стили для тулбара с primary цветом */
+mat-toolbar.mat-primary {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+}
+
+/* Стили для кнопок в тулбаре */
+mat-toolbar.mat-primary .mat-mdc-button,
+mat-toolbar.mat-primary .mat-mdc-stroked-button {
+  color: var(--mat-sys-on-primary);
+}
+
+/* Стили для активных ссылок в тулбаре */
+mat-toolbar.mat-primary .mat-mdc-button.active,
+mat-toolbar.mat-primary .mat-mdc-stroked-button.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Стили для обведенных кнопок в тулбаре */
+mat-toolbar.mat-primary .mat-mdc-stroked-button {
+  border-color: var(--mat-sys-on-primary);
+}
+
+/* Стили при наведении на кнопки в тулбаре */
+mat-toolbar.mat-primary .mat-mdc-button:hover,
+mat-toolbar.mat-primary .mat-mdc-stroked-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 .toast-success {
   --mdc-snackbar-container-color: #0f172a;
   --mdc-snackbar-supporting-text-color: #ffffff;
@@ -52,5 +81,9 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+}
+/* Стили для активного состояния routerLinkActive */
+mat-toolbar.mat-primary .active {
+  font-weight: 500;
 }
 /* You can add global styles to this file, and also import other style files */
