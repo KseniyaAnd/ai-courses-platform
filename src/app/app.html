@@ -3,9 +3,23 @@
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
 <!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
+<!-- * * * * * * * * * Delete the template below * * * * * * * * -->
 <!-- * * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<mat-toolbar color="primary">
+  <span>{{ title() }}</span>
+  <span style="flex: 1 1 auto"></span>
+
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <a mat-button routerLink="/courses" routerLinkActive="active">Courses</a>
+  <a mat-button routerLink="/profile" routerLinkActive="active">Profile</a>
+  <a mat-button routerLink="/auth" routerLinkActive="active">Auth</a>
+</mat-toolbar>
+
+<div style="padding: 16px">
+  <router-outlet />
+</div>
 
 <style>
   :host {
@@ -182,6 +196,10 @@
       margin-block: 1.5rem;
     }
   }
+
+  .main {
+    display: none;
+  }
 </style>
 
 <main class="main">
@@ -341,4 +359,4 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 
-<router-outlet />
+<!-- router-outlet moved to the top layout -->
