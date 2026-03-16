@@ -1,1 +1,82 @@
-<p>courses works!</p>
+<div class="courses">
+  <div class="courses__header">
+    <h1 class="courses__title">Курсы</h1>
+    <p class="courses__subtitle">Найди курс по теме, отфильтруй и отсортируй результаты.</p>
+  </div>
+
+  <form class="courses__filters" [formGroup]="form">
+    <mat-form-field class="filters__search" appearance="outline">
+      <mat-label>Поиск по названию</mat-label>
+      <input matInput formControlName="q" placeholder="Например: Angular, TypeScript" />
+      <button mat-icon-button matSuffix type="button" (click)="form.controls.q.setValue('')" aria-label="Очистить поиск" *ngIf="form.controls.q.value">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field class="filters__categories" appearance="outline">
+      <mat-label>Категории</mat-label>
+      <mat-select formControlName="categories" multiple>
+        <mat-option *ngFor="let cat of categories; trackBy: trackByValue" [value]="cat">{{ cat }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="filters__sort" appearance="outline">
+      <mat-label>Сортировка</mat-label>
+      <mat-select formControlName="sort">
+        <mat-option *ngFor="let o of sortOptions; trackBy: trackBySortValue" [value]="o.value">По {{ o.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+  <div class="courses__results" *ngIf="vm$ | async as vm">
+    <div class="results__loading" *ngIf="vm.loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div class="results__empty" *ngIf="!vm.loading && vm.total === 0">
+      <mat-icon aria-hidden="true">search_off</mat-icon>
+      <div class="results__emptyTitle">Ничего не найдено</div>
+      <div class="results__emptyText">Попробуй изменить запрос или снять часть фильтров.</div>
+    </div>
+
+    <div class="results__meta" *ngIf="!vm.loading && vm.total > 0">
+      <div class="results__count">Найдено: {{ vm.total }}</div>
+    </div>
+
+    <mat-grid-list [cols]="cols()" [rowHeight]="rowHeight()" gutterSize="16" *ngIf="!vm.loading && vm.total > 0">
+      <mat-grid-tile *ngFor="let course of vm.items; trackBy: trackByCourseId">
+        <a class="course-card__link" [routerLink]="['/courses', course.id]">
+          <mat-card class="course-card" appearance="outlined">
+            <img mat-card-image [src]="course.imageUrl" [alt]="course.title" />
+            <mat-card-content>
+              <div class="course-card__title">{{ course.title }}</div>
+              <div class="course-card__desc">{{ course.description }}</div>
+              <div class="course-card__author">{{ course.author }}</div>
+
+              <div class="course-card__meta">
+                <span class="course-card__rating">{{ course.rating.toFixed(1) }}</span>
+                <span class="course-card__stars" aria-label="Course rating">
+                  <mat-icon aria-hidden="true" *ngFor="let i of stars; trackBy: trackByNumber">{{ starIcon(i, course.rating) }}</mat-icon>
+                </span>
+                <span class="course-card__count">({{ formatRatingCount(course.ratingCount) }})</span>
+              </div>
+
+              <div class="course-card__price">{{ formatPrice(course.price) }}</div>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-paginator
+      class="results__paginator"
+      [length]="vm.total"
+      [pageIndex]="vm.pageIndex"
+      [pageSize]="vm.pageSize"
+      [pageSizeOptions]="[8, 12, 16, 24]"
+      (page)="onPageChange($event)"
+      aria-label="Пагинация курсов"
+      *ngIf="!vm.loading && vm.total > 0"
+    />
+  </div>
+</div>

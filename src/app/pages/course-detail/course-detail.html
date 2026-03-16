@@ -1,1 +1,176 @@
-<p>course-detail works!</p>
+<div class="course-detail">
+  @if (loading()) {
+    <div class="course-detail__loading">
+      <mat-spinner diameter="44"></mat-spinner>
+    </div>
+  } @else {
+    @if (course$ | async; as course) {
+      @if (course === null) {
+        <div class="course-detail__notFound">
+          <div class="course-detail__notFoundTitle">Курс не найден</div>
+          <a mat-button routerLink="/courses">Вернуться к каталогу</a>
+        </div>
+      } @else {
+        <section class="top">
+          <div class="top__main">
+            <div class="preview">
+              <div class="preview__media">
+                <img class="preview__img" [src]="course.imageUrl" [alt]="course.title" />
+                <div class="preview__overlay">
+                  <mat-icon aria-hidden="true">play_circle</mat-icon>
+                  <span>Видео‑превью</span>
+                </div>
+              </div>
+
+              <div class="preview__info">
+                <h1 class="preview__title">{{ course.title }}</h1>
+                <p class="preview__desc">{{ course.description }}</p>
+                <div class="preview__author">Автор: {{ course.author }}</div>
+
+                <div class="preview__rating">
+                  <span class="preview__ratingValue">{{ course.rating.toFixed(1) }}</span>
+                  <span class="preview__stars" aria-label="Course rating">
+                    @for (i of stars; track i) {
+                      <mat-icon aria-hidden="true">{{ starIcon(i, course.rating) }}</mat-icon>
+                    }
+                  </span>
+                  <span class="preview__count">({{ course.ratingCount }})</span>
+                </div>
+              </div>
+            </div>
+
+            <mat-tab-group class="tabs" animationDuration="0ms">
+              <mat-tab label="Содержание курса">
+                <div class="tab">
+                  <div class="tab__hint">
+                    @if (!enrolled()) {
+                      Часть уроков заблокирована. Запишись на курс, чтобы открыть доступ.
+                    } @else {
+                      Отлично! Можно продолжать обучение.
+                    }
+                  </div>
+
+                  <mat-accordion multi>
+                    @for (lesson of course.lessons; track lesson.id) {
+                      @let status = displayLessonStatus(lesson);
+                      <mat-expansion-panel [disabled]="status === 'locked'">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <span class="lesson__title">{{ lesson.title }}</span>
+                          </mat-panel-title>
+                          <mat-panel-description>
+                            <span class="lesson__status" [class.lesson__status--locked]="status === 'locked'">
+                              <mat-icon aria-hidden="true">{{ lessonStatusIcon(status) }}</mat-icon>
+                              <span>{{ lessonStatusLabel(status) }}</span>
+                            </span>
+                            <span class="lesson__duration">{{ lesson.durationMinutes }} мин</span>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <div class="lesson__body">
+                          <p class="lesson__preview">{{ lesson.contentPreview }}</p>
+
+                          <div class="lesson__actions">
+                            <button
+                              mat-stroked-button
+                              type="button"
+                              (click)="toggleTaskDone(lesson.id)"
+                              [disabled]="!enrolled()"
+                            >
+                              @if (isTaskDone(lesson.id)) { Отменить выполнение } @else { Отметить задание выполненным }
+                            </button>
+                            <span class="lesson__task" [class.lesson__task--done]="isTaskDone(lesson.id)">
+                              <mat-icon aria-hidden="true">{{ isTaskDone(lesson.id) ? 'task_alt' : 'assignment' }}</mat-icon>
+                              <span>
+                                @if (isTaskDone(lesson.id)) { Задание выполнено } @else { Задание не выполнено }
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </mat-expansion-panel>
+                    }
+                  </mat-accordion>
+                </div>
+              </mat-tab>
+
+              <mat-tab label="Отзывы">
+                <div class="tab">
+                  <div class="reviews">
+                    @for (r of course.reviews; track r.userName) {
+                      <mat-card class="review" appearance="outlined">
+                        <mat-card-content>
+                          <div class="review__head">
+                            <div class="review__name">{{ r.userName }}</div>
+                            <div class="review__rating">{{ r.rating }}/5</div>
+                          </div>
+                          <div class="review__text">{{ r.text }}</div>
+                        </mat-card-content>
+                      </mat-card>
+                    }
+                  </div>
+                </div>
+              </mat-tab>
+
+              <mat-tab label="О преподавателе">
+                <div class="tab">
+                  <mat-card appearance="outlined">
+                    <mat-card-content>
+                      <div class="instructor__title">{{ course.author }}</div>
+                      <div class="instructor__text">{{ course.aboutInstructor }}</div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+
+          <aside class="sidebar">
+            <mat-card class="sidebar__card" appearance="outlined">
+              <mat-card-content>
+                <div class="sidebar__price">{{ course.price | currency:'USD' }}</div>
+
+                <div class="sidebar__stats">
+                  <div class="stat">
+                    <mat-icon aria-hidden="true">schedule</mat-icon>
+                    <div>
+                      <div class="stat__label">Длительность</div>
+                      <div class="stat__value">{{ formatDuration(course.totalDurationMinutes) }}</div>
+                    </div>
+                  </div>
+
+                  <div class="stat">
+                    <mat-icon aria-hidden="true">list</mat-icon>
+                    <div>
+                      <div class="stat__label">Уроков</div>
+                      <div class="stat__value">{{ course.lessonsCount }}</div>
+                    </div>
+                  </div>
+
+                  <div class="stat">
+                    <mat-icon aria-hidden="true">signal_cellular_alt</mat-icon>
+                    <div>
+                      <div class="stat__label">Уровень</div>
+                      <div class="stat__value">{{ course.level }}</div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                @if (!enrolled()) {
+                  <button mat-raised-button color="primary" type="button" class="sidebar__cta" (click)="enroll()">
+                    Записаться на курс
+                  </button>
+                } @else {
+                  <button mat-raised-button color="primary" type="button" class="sidebar__cta" (click)="continueLearning()">
+                    Продолжить обучение
+                  </button>
+                }
+              </mat-card-actions>
+            </mat-card>
+          </aside>
+        </section>
+      }
+    }
+  }
+</div>

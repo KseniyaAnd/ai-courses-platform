@@ -1,1 +1,119 @@
-<p>auth works!</p>
+<div class="auth">
+  <mat-card class="auth__card" appearance="outlined">
+    <mat-card-content>
+      <div class="auth__header">
+        <div class="auth__title">Аккаунт</div>
+        <div class="auth__subtitle">Return URL: <code>{{ returnUrl }}</code></div>
+      </div>
+
+      @if (isAuthenticated) {
+        <div class="auth__already">
+          Вы уже авторизованы.
+          <button mat-stroked-button type="button" (click)="logout()">Выйти</button>
+        </div>
+      } @else {
+        <mat-tab-group [(selectedIndex)]="activeTabIndex" animationDuration="200ms">
+          <mat-tab label="Вход">
+            <form class="auth__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" autocomplete="email" />
+                @if (loginForm.controls.email.hasError('required') && loginForm.controls.email.touched) {
+                  <mat-error>Email обязателен</mat-error>
+                }
+                @if (loginForm.controls.email.hasError('email') && loginForm.controls.email.touched) {
+                  <mat-error>Некорректный email</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Пароль</mat-label>
+                <input matInput type="password" formControlName="password" autocomplete="current-password" />
+                @if (loginForm.controls.password.hasError('required') && loginForm.controls.password.touched) {
+                  <mat-error>Пароль обязателен</mat-error>
+                }
+                @if (loginForm.controls.password.hasError('minlength') && loginForm.controls.password.touched) {
+                  <mat-error>Минимум 6 символов</mat-error>
+                }
+              </mat-form-field>
+
+              <div class="auth__row">
+                <mat-checkbox formControlName="rememberMe">Запомнить меня</mat-checkbox>
+                <button mat-button type="button" (click)="forgotPassword()">Забыли пароль?</button>
+              </div>
+
+              <button mat-raised-button color="primary" type="submit">Войти</button>
+
+              <mat-divider></mat-divider>
+
+              <div class="auth__social">
+                <button mat-stroked-button type="button" (click)="socialLogin('google')">Google</button>
+                <button mat-stroked-button type="button" (click)="socialLogin('facebook')">Facebook</button>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Регистрация">
+            <form class="auth__form" [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+              <mat-form-field appearance="outline">
+                <mat-label>Имя</mat-label>
+                <input matInput formControlName="name" autocomplete="name" />
+                @if (registerForm.controls.name.hasError('required') && registerForm.controls.name.touched) {
+                  <mat-error>Имя обязательно</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" autocomplete="email" />
+                @if (registerForm.controls.email.hasError('required') && registerForm.controls.email.touched) {
+                  <mat-error>Email обязателен</mat-error>
+                }
+                @if (registerForm.controls.email.hasError('email') && registerForm.controls.email.touched) {
+                  <mat-error>Некорректный email</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Пароль</mat-label>
+                <input matInput type="password" formControlName="password" autocomplete="new-password" />
+                @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.touched) {
+                  <mat-error>Пароль обязателен</mat-error>
+                }
+                @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.touched) {
+                  <mat-error>Минимум 6 символов</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Подтвердите пароль</mat-label>
+                <input matInput type="password" formControlName="confirmPassword" autocomplete="new-password" />
+                @if (registerForm.hasError('passwordMismatch') && registerForm.controls.confirmPassword.touched) {
+                  <mat-error>Пароли не совпадают</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-checkbox formControlName="agree">
+                Я согласен(на) с правилами
+              </mat-checkbox>
+              @if (registerForm.controls.agree.hasError('required') && registerForm.controls.agree.touched) {
+                <div class="auth__error">Нужно согласиться с правилами</div>
+              }
+
+              <mat-checkbox formControlName="rememberMe">Запомнить меня</mat-checkbox>
+
+              <button mat-raised-button color="primary" type="submit">Создать аккаунт</button>
+
+              <mat-divider></mat-divider>
+
+              <div class="auth__social">
+                <button mat-stroked-button type="button" (click)="socialLogin('google')">Google</button>
+                <button mat-stroked-button type="button" (click)="socialLogin('facebook')">Facebook</button>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

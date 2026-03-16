@@ -1,0 +1,54 @@
+[
+  {
+    "id": "angular-material",
+    "title": "Angular + Material: практический курс",
+    "description": "Собери современное Angular приложение с Material UI и лучшими практиками.",
+    "author": "K. And",
+    "rating": 4.7,
+    "ratingCount": 12845,
+    "price": 19.99,
+    "imageUrl": "https://picsum.photos/seed/angular/640/360",
+    "categories": ["Frontend", "Web Development"],
+    "createdAt": "2026-02-10T00:00:00.000Z",
+    "popularity": 980
+  },
+  {
+    "id": "ts-bootcamp",
+    "title": "TypeScript Bootcamp: от нуля до уверенности",
+    "description": "Типы, generics, утилиты, архитектура и реальные примеры для работы.",
+    "author": "Frontend Lab",
+    "rating": 4.6,
+    "ratingCount": 9032,
+    "price": 16.99,
+    "imageUrl": "https://picsum.photos/seed/typescript/640/360",
+    "categories": ["Frontend", "Web Development"],
+    "createdAt": "2025-12-21T00:00:00.000Z",
+    "popularity": 840
+  },
+  {
+    "id": "rxjs",
+    "title": "RxJS на практике: реактивное мышление",
+    "description": "Операторы, композиция, обработка ошибок и паттерны для Angular.",
+    "author": "Reactive Academy",
+    "rating": 4.5,
+    "ratingCount": 6521,
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/seed/rxjs/640/360",
+    "categories": ["Frontend", "Web Development"],
+    "createdAt": "2026-01-05T00:00:00.000Z",
+    "popularity": 760
+  },
+  {
+    "id": "clean-frontend",
+    "title": "Clean Frontend Architecture",
+    "description": "Модульность, слои, зависимости и масштабирование фронтенд-проекта.",
+    "author": "Software Craft",
+    "rating": 4.8,
+    "ratingCount": 4120,
+    "price": 21.99,
+    "imageUrl": "https://picsum.photos/seed/frontend/640/360",
+    "categories": ["Frontend", "Web Development"],
+    "createdAt": "2025-11-18T00:00:00.000Z",
+    "popularity": 690
+  }
+]

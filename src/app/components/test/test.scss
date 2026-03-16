@@ -1,0 +1,155 @@
+
+.test {
+  display: block;
+}
+
+.test__loading {
+  display: flex;
+  justify-content: center;
+  padding: 28px 0;
+}
+
+.test__info {
+  margin-bottom: 12px;
+}
+
+.test__title {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.test__hint {
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+.test__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+.test__blocked {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.test__blockedTitle {
+  font-weight: 900;
+}
+
+.test__blockedText {
+  opacity: 0.85;
+}
+
+.panel__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.panel__progress {
+  font-weight: 800;
+}
+
+.panel__timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 900;
+}
+
+.question {
+  margin-top: 14px;
+}
+
+.question__text {
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.question__options {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.question__option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.question__mark {
+  margin-left: 10px;
+}
+
+.question__mark--correct {
+  color: #16a34a;
+}
+
+.question__mark--wrong {
+  color: #dc2626;
+}
+
+.question__realtime {
+  margin-top: 10px;
+  font-weight: 900;
+  color: #dc2626;
+}
+
+.question__realtime--ok {
+  color: #16a34a;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.test__result {
+  margin-top: 12px;
+}
+
+.result__title {
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.result__score {
+  margin-top: 8px;
+  font-weight: 900;
+}
+
+.result__status {
+  margin-top: 10px;
+  font-weight: 900;
+  color: #dc2626;
+}
+
+.result__status--ok {
+  color: #16a34a;
+}
+
+.result__details {
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+@media (max-width: 700px) {
+  .panel__top {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+

@@ -1,1 +1,102 @@
-<p>profile works!</p>
+<div class="profile">
+  <h1 class="profile__title">Профиль</h1>
+
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Личная информация">
+      <div class="tab">
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            <div class="info">
+              <img class="info__avatar" [src]="profile().avatarUrl" alt="Avatar" />
+              <div class="info__text">
+                <div class="info__name">{{ profile().name }}</div>
+                <div class="info__email">{{ profile().email }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Мои курсы">
+      <div class="tab">
+        <div class="section">
+          <div class="section__title">В процессе обучения</div>
+          <div class="courses">
+            @for (item of inProgressCourses(); track item.course.id) {
+              <mat-card appearance="outlined">
+                <mat-card-content>
+                  <div class="course__title">{{ item.course.title }}</div>
+                  <div class="course__meta">
+                    <span>Прогресс: <strong>{{ item.progressPercent }}%</strong></span>
+                    <span>Последний урок: <strong>{{ item.lastCompletedLessonTitle }}</strong></span>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="item.progressPercent"></mat-progress-bar>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <a mat-raised-button color="primary" [routerLink]="['/courses', item.course.id]">Продолжить обучение</a>
+                </mat-card-actions>
+              </mat-card>
+            }
+
+            @if (inProgressCourses().length === 0) {
+              <div class="empty">Нет курсов в процессе.</div>
+            }
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section__title">Пройденные</div>
+          <div class="courses">
+            @for (item of completedCourses(); track item.course.id) {
+              <mat-card appearance="outlined">
+                <mat-card-content>
+                  <div class="course__title">{{ item.course.title }}</div>
+                  <div class="course__meta">
+                    <span>Прогресс: <strong>{{ item.progressPercent }}%</strong></span>
+                    <span>Последний урок: <strong>{{ item.lastCompletedLessonTitle }}</strong></span>
+                  </div>
+                  <mat-progress-bar mode="determinate" [value]="item.progressPercent"></mat-progress-bar>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                  <a mat-button [routerLink]="['/courses', item.course.id]">Открыть курс</a>
+                </mat-card-actions>
+              </mat-card>
+            }
+
+            @if (completedCourses().length === 0) {
+              <div class="empty">Пока нет пройденных курсов.</div>
+            }
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Сертификаты">
+      <div class="tab">
+        <div class="certs">
+          @for (c of certificates(); track c.courseId) {
+            <mat-card appearance="outlined">
+              <mat-card-content>
+                <div class="cert__title">{{ c.courseTitle }}</div>
+                <div class="cert__meta">
+                  <span>Дата: <strong>{{ c.obtainedAt | date:'medium' }}</strong></span>
+                  <span>Результат: <strong>{{ c.scorePercent }}%</strong></span>
+                </div>
+              </mat-card-content>
+              <mat-card-actions align="end">
+                <button mat-raised-button color="primary" type="button" (click)="downloadCertificate(c)">Скачать</button>
+              </mat-card-actions>
+            </mat-card>
+          }
+
+          @if (certificates().length === 0) {
+            <div class="empty">
+              Сертификатов пока нет. Сдай финальный тест на 80%+ и скачай сертификат.
+            </div>
+          }
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

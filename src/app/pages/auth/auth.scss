@@ -1,0 +1,69 @@
+
+.auth {
+  display: grid;
+  place-items: center;
+  padding: 24px 0;
+}
+
+.auth__card {
+  width: min(560px, 100%);
+}
+
+.auth__header {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.auth__title {
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.auth__subtitle {
+  opacity: 0.75;
+}
+
+.auth__subtitle code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.auth__already {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.auth__form {
+  display: grid;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.auth__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.auth__social {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.auth__error {
+  color: #dc2626;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .auth__social {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,79 @@
+
+.profile {
+  display: block;
+}
+
+.profile__title {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.tab {
+  padding: 14px 0;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.info__avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.info__name {
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.info__email {
+  opacity: 0.8;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section__title {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.courses,
+.certs {
+  display: grid;
+  gap: 12px;
+}
+
+.course__title,
+.cert__title {
+  font-weight: 900;
+}
+
+.course__meta,
+.cert__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  opacity: 0.9;
+  margin: 8px 0 10px;
+}
+
+.empty {
+  opacity: 0.75;
+  padding: 10px 0;
+}
+
+@media (max-width: 700px) {
+  .info {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
+

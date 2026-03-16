@@ -1,1 +1,134 @@
-<p>home works!</p>
+<div class="home">
+  <section class="hero">
+    <div class="hero__inner">
+      <div class="hero__copy">
+        <h1 class="hero__title">Учись новым навыкам — получай новые возможности</h1>
+        <p class="hero__subtitle">
+          Курсы по фронтенду, бэкенду, дизайну и тестированию — от практиков.
+        </p>
+        <div class="hero__actions">
+          <a mat-raised-button color="primary" routerLink="/courses">Начать обучение</a>
+          <a mat-stroked-button routerLink="/auth">Войти</a>
+        </div>
+      </div>
+
+      <div class="hero__card">
+        <mat-card class="hero-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>Собери свой путь обучения</mat-card-title>
+            <mat-card-subtitle>Подборки, прогресс, рекомендации</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="hero-card__bullets">
+              <div class="hero-card__bullet">
+                <mat-icon aria-hidden="true">auto_awesome</mat-icon>
+                <span>Популярные темы и свежие курсы</span>
+              </div>
+              <div class="hero-card__bullet">
+                <mat-icon aria-hidden="true">school</mat-icon>
+                <span>Уроки + задания + тесты</span>
+              </div>
+              <div class="hero-card__bullet">
+                <mat-icon aria-hidden="true">workspace_premium</mat-icon>
+                <span>Сертификат и портфолио</span>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <a mat-button routerLink="/courses">Смотреть курсы</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Популярные курсы</h2>
+      <a mat-button routerLink="/courses">Все курсы</a>
+    </div>
+
+    <mat-grid-list
+      [cols]="popularCols()"
+      [rowHeight]="gridRowHeight()"
+      gutterSize="16"
+    >
+      @for (course of popularCourses(); track course.id) {
+        <mat-grid-tile>
+          <mat-card class="course-card" appearance="outlined">
+            <img mat-card-image [src]="course.imageUrl" [alt]="course.title" />
+            <mat-card-content>
+              <div class="course-card__title">{{ course.title }}</div>
+              <div class="course-card__author">{{ course.author }}</div>
+
+              <div class="course-card__meta">
+                <span class="course-card__rating">{{ course.rating.toFixed(1) }}</span>
+                <span class="course-card__stars" aria-label="Course rating">
+                  @for (i of [1, 2, 3, 4, 5]; track i) {
+                    <mat-icon aria-hidden="true">{{ starIcon(i, course.rating) }}</mat-icon>
+                  }
+                </span>
+                <span class="course-card__count">({{ formatRatingCount(course.ratingCount) }})</span>
+              </div>
+
+              <div class="course-card__price">{{ formatPrice(course.price) }}</div>
+            </mat-card-content>
+            <mat-card-actions>
+              <a mat-button color="primary" [routerLink]="['/courses', course.id]">Подробнее</a>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2 class="section__title">Новые курсы</h2>
+      <a mat-button routerLink="/courses">Смотреть</a>
+    </div>
+
+    <mat-grid-list
+      [cols]="newCols()"
+      [rowHeight]="gridRowHeight()"
+      gutterSize="16"
+    >
+      @for (course of newCourses(); track course.id) {
+        <mat-grid-tile>
+          <mat-card class="course-card" appearance="outlined">
+            <img mat-card-image [src]="course.imageUrl" [alt]="course.title" />
+            <mat-card-content>
+              <div class="course-card__title">{{ course.title }}</div>
+              <div class="course-card__author">{{ course.author }}</div>
+              <div class="course-card__meta">
+                <span class="course-card__rating">{{ course.rating.toFixed(1) }}</span>
+                <span class="course-card__stars" aria-label="Course rating">
+                  @for (i of [1, 2, 3, 4, 5]; track i) {
+                    <mat-icon aria-hidden="true">{{ starIcon(i, course.rating) }}</mat-icon>
+                  }
+                </span>
+                <span class="course-card__count">({{ formatRatingCount(course.ratingCount) }})</span>
+              </div>
+              <div class="course-card__price">{{ formatPrice(course.price) }}</div>
+            </mat-card-content>
+            <mat-card-actions>
+              <a mat-button color="primary" [routerLink]="['/courses', course.id]">Подробнее</a>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">Udemy Clone</div>
+      <div class="footer__links">
+        <a routerLink="/">Главная</a>
+        <a routerLink="/courses">Курсы</a>
+        <a routerLink="/auth">Войти</a>
+      </div>
+      <div class="footer__copy">&copy; {{ year }}. Все права защищены.</div>
+    </div>
+  </footer>
+</div>

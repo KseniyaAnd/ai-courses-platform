@@ -1,1 +1,128 @@
-<p>lesson works!</p>
+<div class="lesson">
+  <div class="lesson__top">
+    <div class="lesson__main">
+      <h1 class="lesson__title">{{ title }}</h1>
+
+      <mat-card class="lesson__video" appearance="outlined">
+        <div class="video">
+          <iframe
+            class="video__frame"
+            [src]="safeVideoUrl()"
+            title="Lesson video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="video__controls">
+          <div class="video__progress">
+            <div class="video__progressLabel">
+              Прогресс просмотра:
+              <strong>{{ progress() }}%</strong>
+              @if (watched()) {
+                <span class="video__watched">(просмотрено)</span>
+              }
+            </div>
+            <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+          </div>
+
+          <div class="video__buttons">
+            <button mat-raised-button color="primary" type="button" (click)="startWatching()">
+              Смотреть
+            </button>
+            <button mat-stroked-button type="button" (click)="markWatched()">Отметить как просмотрено</button>
+            <button mat-button type="button" (click)="resetProgress()">Сбросить</button>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="lesson__section" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Описание</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="lesson__text">{{ description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          @if (materialsUrl) {
+            <a mat-stroked-button [href]="materialsUrl" target="_blank" rel="noopener">Скачать материалы</a>
+          } @else {
+            <button mat-stroked-button type="button" disabled>Материалы недоступны</button>
+          }
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="lesson__section" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Задание</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="lesson__text">{{ taskText }}</p>
+
+          <form class="task" [formGroup]="uploadForm" (ngSubmit)="submitTask()">
+            <div class="task__row">
+              <input type="file" (change)="onSelectFile($event)" />
+              <span class="task__file" [class.task__file--empty]="!uploadForm.controls.fileName.value">
+                {{ uploadForm.controls.fileName.value || 'Файл не выбран' }}
+              </span>
+            </div>
+
+            <mat-form-field appearance="outline" class="task__comment">
+              <mat-label>Комментарий к заданию (опционально)</mat-label>
+              <input matInput formControlName="comment" />
+            </mat-form-field>
+
+            <div class="task__actions">
+              <button mat-raised-button color="primary" type="submit">Отправить задание</button>
+            </div>
+
+            @if (lastSubmission(); as s) {
+              <div class="task__submitted">
+                Последняя отправка: <strong>{{ s.fileName }}</strong>
+              </div>
+            }
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      @if (commentsEnabled) {
+        <mat-card class="lesson__section" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>Комментарии</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="comments">
+              <mat-form-field appearance="outline" class="comments__input">
+                <mat-label>Добавить комментарий</mat-label>
+                <input matInput [formControl]="commentText" (keydown.enter)="$event.preventDefault(); addComment()" />
+              </mat-form-field>
+              <button mat-raised-button type="button" (click)="addComment()">Отправить</button>
+            </div>
+
+            <div class="comments__list">
+              @for (c of comments(); track c.id) {
+                <div class="comment">
+                  <div class="comment__text">{{ c.text }}</div>
+                </div>
+              }
+
+              @if (comments().length === 0) {
+                <div class="comments__empty">Пока нет комментариев.</div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <div class="lesson__nav">
+        <a mat-stroked-button *ngIf="prevLessonLink" [routerLink]="prevLessonLink">Предыдущий урок</a>
+        <span class="lesson__navSpacer"></span>
+        <a mat-raised-button color="primary" *ngIf="nextLessonLink" [routerLink]="nextLessonLink">Следующий урок</a>
+      </div>
+    </div>
+  </div>
+</div>

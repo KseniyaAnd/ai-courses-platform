@@ -1,1 +1,135 @@
-<p>test works!</p>
+<div class="test">
+  @if (loading()) {
+    <div class="test__loading">
+      <mat-spinner diameter="44"></mat-spinner>
+    </div>
+  } @else {
+    @if (course$ | async; as course) {
+      @if (course === null) {
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            <div class="test__title">Тест недоступен</div>
+            <div class="test__hint">Не удалось определить курс. Передай `courseId` или открой тест с query param `courseId`.</div>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <mat-card class="test__info" appearance="outlined">
+          <mat-card-content>
+            <div class="test__title">Финальный тест: {{ course.title }}</div>
+            <div class="test__meta">
+              <span><strong>Вопросов:</strong> {{ totalQuestions() }}</span>
+              <span><strong>Время:</strong> {{ minutesLimit }} мин</span>
+              <span><strong>Проходной балл:</strong> {{ passingScorePercent }}%</span>
+              <span><strong>Попытка:</strong> {{ attempt() }}</span>
+            </div>
+
+            @if (!eligible()) {
+              <div class="test__blocked">
+                <mat-icon aria-hidden="true">lock</mat-icon>
+                <div>
+                  <div class="test__blockedTitle">Тест закрыт</div>
+                  <div class="test__blockedText">{{ eligibleReason() }}</div>
+                </div>
+              </div>
+            }
+          </mat-card-content>
+          <mat-card-actions align="end">
+            @if (!started() && !finished()) {
+              <button mat-raised-button color="primary" type="button" (click)="start()" [disabled]="!eligible()">
+                Начать тест
+              </button>
+            }
+            @if (started()) {
+              <button mat-stroked-button type="button" (click)="finish()">Завершить</button>
+            }
+          </mat-card-actions>
+        </mat-card>
+
+        @if (started()) {
+          <mat-card class="test__panel" appearance="outlined">
+            <mat-card-content>
+              <div class="panel__top">
+                <div class="panel__progress">
+                  Вопрос {{ activeIndex() + 1 }} из {{ totalQuestions() }}
+                </div>
+                <div class="panel__timer">
+                  <mat-icon aria-hidden="true">timer</mat-icon>
+                  <span>{{ formatTime(secondsLeft()) }}</span>
+                </div>
+              </div>
+
+              <mat-progress-bar mode="determinate" [value]="progressPercent()"></mat-progress-bar>
+
+              <div class="question" [formGroup]="form">
+                @let q = questions()[activeIndex()];
+                <div class="question__text">{{ q.text }}</div>
+
+                <mat-radio-group class="question__options" [formControl]="answersArray.at(activeIndex())">
+                  @for (opt of q.options; track opt.id) {
+                    <mat-radio-button class="question__option" [value]="opt.id">
+                      {{ opt.text }}
+                      @if (isAnswered(activeIndex())) {
+                        @if (opt.id === q.correctOptionId) {
+                          <mat-icon class="question__mark question__mark--correct" aria-hidden="true">check_circle</mat-icon>
+                        } @else if (answersArray.at(activeIndex()).value === opt.id) {
+                          <mat-icon class="question__mark question__mark--wrong" aria-hidden="true">cancel</mat-icon>
+                        }
+                      }
+                    </mat-radio-button>
+                  }
+                </mat-radio-group>
+
+                @if (isAnswered(activeIndex())) {
+                  <div class="question__realtime" [class.question__realtime--ok]="isCorrect(activeIndex())">
+                    @if (isCorrect(activeIndex())) { Верно } @else { Неверно }
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+
+            <mat-divider></mat-divider>
+
+            <mat-card-actions>
+              <button mat-button type="button" (click)="prev()" [disabled]="!canGoPrev()">Предыдущий</button>
+              <span class="spacer"></span>
+              <button mat-stroked-button type="button" (click)="next()" [disabled]="!canGoNext()">Следующий</button>
+              <button mat-raised-button color="primary" type="button" (click)="finish()">Сдать</button>
+            </mat-card-actions>
+          </mat-card>
+        }
+
+        @if (finished()) {
+          <mat-card class="test__result" appearance="outlined">
+            <mat-card-content>
+              <div class="result__title">Результат</div>
+              <div class="result__score">
+                {{ score().correct }} / {{ score().total }}
+                ({{ scorePercent() }}%)
+              </div>
+
+              <div class="result__status" [class.result__status--ok]="passed()">
+                @if (passed()) {
+                  Сдано
+                } @else {
+                  Не сдано
+                }
+              </div>
+
+              <div class="result__details">
+                Проходной балл: {{ passingScorePercent }}%
+              </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <button mat-stroked-button type="button" (click)="retake()">Пересдать</button>
+              <span class="spacer"></span>
+              <button mat-raised-button color="primary" type="button" (click)="downloadCertificate(course)" [disabled]="!passed()">
+                Скачать сертификат
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      }
+    }
+  }
+</div>

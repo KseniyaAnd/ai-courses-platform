@@ -5,6 +5,8 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+@include mat.core();
+
 html {
   height: 100%;
   @include mat.theme(
@@ -17,6 +19,21 @@ html {
       density: 0,
     )
   );
+}
+
+.toast-success {
+  --mdc-snackbar-container-color: #0f172a;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+}
+
+.toast-error {
+  --mdc-snackbar-container-color: #7f1d1d;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+}
+
+.toast-info {
+  --mdc-snackbar-container-color: #0b1020;
+  --mdc-snackbar-supporting-text-color: #ffffff;
 }
 
 body {

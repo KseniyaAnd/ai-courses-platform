@@ -1,0 +1,149 @@
+
+.lesson {
+  display: block;
+}
+
+.lesson__title {
+  margin: 0 0 12px;
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.lesson__video {
+  overflow: hidden;
+}
+
+.video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.video__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video__controls {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+
+.video__progressLabel {
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.video__watched {
+  margin-left: 8px;
+  font-weight: 800;
+}
+
+.video__buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lesson__section {
+  margin-top: 12px;
+}
+
+.lesson__text {
+  margin: 0;
+  opacity: 0.85;
+}
+
+.task {
+  margin-top: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.task__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task__file {
+  font-weight: 700;
+}
+
+.task__file--empty {
+  opacity: 0.65;
+  font-weight: 600;
+}
+
+.task__comment {
+  width: 100%;
+}
+
+.task__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.task__submitted {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.comments {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.comments__input {
+  width: 100%;
+}
+
+.comments__list {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.comment {
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+}
+
+.comments__empty {
+  opacity: 0.7;
+}
+
+.lesson__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.lesson__navSpacer {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 700px) {
+  .comments {
+    grid-template-columns: 1fr;
+  }
+
+  .task__actions {
+    justify-content: stretch;
+  }
+
+  .task__actions button {
+    width: 100%;
+  }
+}
+

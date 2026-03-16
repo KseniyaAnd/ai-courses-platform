@@ -11,10 +11,10 @@
   <span>{{ title() }}</span>
   <span style="flex: 1 1 auto"></span>
 
-  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-  <a mat-button routerLink="/courses" routerLinkActive="active">Courses</a>
-  <a mat-button routerLink="/profile" routerLinkActive="active">Profile</a>
-  <a mat-button routerLink="/auth" routerLinkActive="active">Auth</a>
+  <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Главная</a>
+  <a mat-button routerLink="/courses" routerLinkActive="active">Курсы</a>
+  <a mat-button routerLink="/auth" [queryParams]="{ mode: 'login' }" routerLinkActive="active">Войти</a>
+  <a mat-stroked-button routerLink="/auth" [queryParams]="{ mode: 'register' }">Регистрация</a>
 </mat-toolbar>
 
 <div style="padding: 16px">
